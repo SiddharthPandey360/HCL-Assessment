@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Student Registration Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 500px;
+      background: #fff;
+      padding: 20px;
+      margin: auto;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+
+    .gender {
+      margin-top: 5px;
+    }
+
+    .gender input {
+      margin-right: 5px;
+    }
+
+    .terms {
+      margin-top: 10px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 15px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    .error {
+      color: red;
+      font-size: 14px;
+    }
+
+    .success {
+      color: green;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    .output {
+      margin-top: 15px;
+      background: #f1f1f1;
+      padding: 10px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Student Registration Form</h2>
+
+    <form id="registrationForm">
+
+      <label>Name</label>
+      <input type="text" id="name" />
+      <span class="error" id="nameError"></span>
+
+      <label>Email</label>
+      <input type="email" id="email" />
+      <span class="error" id="emailError"></span>
+
+      <label>Gender</label>
+      <div class="gender">
+        <input type="radio" name="gender" value="Male" /> Male
+        <input type="radio" name="gender" value="Female" /> Female
+      </div>
+      <span class="error" id="genderError"></span>
+
+      <label>Course</label>
+      <select id="course">
+        <option value="">-- Select Course --</option>
+        <option>Java</option>
+        <option>JavaScript</option>
+        <option>Python</option>
+        <option>.NET</option>
+      </select>
+      <span class="error" id="courseError"></span>
+
+      <div class="terms">
+        <input type="checkbox" id="terms" /> I agree to Terms & Conditions
+      </div>
+      <span class="error" id="termsError"></span>
+
+      <button type="submit">Submit</button>
+
+    </form>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    document.getElementById("registrationForm").addEventListener("submit", function (e) {
+      e.preventDefault(); // prevent page reload
+
+      // Clear previous errors
+      document.querySelectorAll(".error").forEach(el => el.innerText = "");
+      document.getElementById("result").innerHTML = "";
+
+      let name = document.getElementById("name").value.trim();
+      let email = document.getElementById("email").value.trim();
+      let course = document.getElementById("course").value;
+      let terms = document.getElementById("terms").checked;
+      let gender = document.querySelector('input[name="gender"]:checked');
+
+      let isValid = true;
+
+      if (name === "") {
+        document.getElementById("nameError").innerText = "Name is required";
+        isValid = false;
+      }
+
+      if (email === "") {
+        document.getElementById("emailError").innerText = "Email is required";
+        isValid = false;
+      }
+
+      if (!gender) {
+        document.getElementById("genderError").innerText = "Select gender";
+        isValid = false;
+      }
+
+      if (course === "") {
+        document.getElementById("courseError").innerText = "Select course";
+        isValid = false;
+      }
+
+      if (!terms) {
+        document.getElementById("termsError").innerText = "You must accept terms";
+        isValid = false;
+      }
+
+      if (isValid) {
+        document.getElementById("result").innerHTML = `
+          <div class="success">Registration Successful!</div>
+          <div class="output">
+            <p><strong>Name:</strong> ${name}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Gender:</strong> ${gender.value}</p>
+            <p><strong>Course:</strong> ${course}</p>
+          </div>
+        `;
+      }
+    });
+  </script>
+
+</body>
+</html>
